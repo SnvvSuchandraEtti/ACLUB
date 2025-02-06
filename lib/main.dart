@@ -1,34 +1,69 @@
+import 'package:aclub/views/events/event_screen.dart';
+import 'package:aclub/views/home/navbar.dart';
 import 'package:flutter/material.dart';
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
-import 'routes/app_routes.dart';
-import 'features/splash/presentation/splash_screen.dart'; // Adjust import to the correct splash screen location
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
-  runApp(
-    DevicePreview(
-      enabled: !kReleaseMode, // Enable DevicePreview in debug mode
-      builder: (context) => const AClubApp(),
-    ),
-  );
+
+
+
+// Import your persistent navigation wrapper
+
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized(); // Ensure binding before Firebase initialization
+  // await Firebase.initializeApp(); // Initialize Firebase
+  runApp(MyApp());
 }
 
-class AClubApp extends StatelessWidget {
-  const AClubApp({Key? key}) : super(key: key);
+
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context), // For DevicePreview
-      builder: DevicePreview.appBuilder,
-      title: 'ACLUB',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: AppRoutes.splash, // Updated to use the initial route from AppRoutes
-      routes: AppRoutes.routes, // Defined in app_routes.dart
+    return ScreenUtilInit(
+      designSize: const Size(428, 926),
+      builder: (_, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'ACLUB',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: EventDetailsScreen(event: Event(
+            id: '1',
+            name: 'Sample Event',
+            date: DateTime.now(),
+            location: 'Sample Location',
+            image: 'assets/AT.png',
+            description: 'Sample Description',
+            guests: ['Guest 1', 'Guest 2']
+          )), // Use the persistent navigation wrapper
+        );
+      },
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
